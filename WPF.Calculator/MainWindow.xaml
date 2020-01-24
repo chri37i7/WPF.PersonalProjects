@@ -9,7 +9,8 @@
         MaxHeight="220"
         MinHeight="220"
         MaxWidth="210"
-        MinWidth="210">
+        MinWidth="210"
+        WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid HorizontalAlignment="Center"
               Height="165"

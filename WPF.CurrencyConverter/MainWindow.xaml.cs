@@ -31,21 +31,34 @@ namespace WPF.CurrencyConverter
         }
         public void TextBoxNumberInput_TextChanged(object sender, TextChangedEventArgs e)
         {
-            int.TryParse(textBoxNumberInput.Text, out int numberInput);
+            double.TryParse(textBoxNumberInput.Text, out double numberInput);
 
-            if(viewModel.FirstSelectedCurrency != null || viewModel.SecondSelectedCurrency != null)
+            if(viewModel.FirstSelectedCurrency != null && viewModel.SecondSelectedCurrency != null)
             {
-                if(viewModel.FirstSelectedCurrency.DollarExchangeRate > viewModel.SecondSelectedCurrency.DollarExchangeRate)
+                if(viewModel.FirstSelectedCurrency == viewModel.SecondSelectedCurrency)
                 {
-                    double result = (viewModel.FirstSelectedCurrency.DollarExchangeRate * numberInput) * viewModel.SecondSelectedCurrency.DollarExchangeRate;
+                    double result = 1 * numberInput;
 
-                    textBlockCalculationResult.Text = result.ToString();
+                    textBlockCalculationResult.Text = $"{result.ToString("0.##")} {viewModel.SecondSelectedCurrency.CurrencyCode}";
                 }
-                else if(viewModel.FirstSelectedCurrency.DollarExchangeRate < viewModel.SecondSelectedCurrency.DollarExchangeRate)
+                else
                 {
-                    double result = (viewModel.FirstSelectedCurrency.DollarExchangeRate * numberInput) / viewModel.SecondSelectedCurrency.DollarExchangeRate;
+                    if(viewModel.FirstSelectedCurrency.DollarExchangeRate < viewModel.SecondSelectedCurrency.DollarExchangeRate)
+                    {
+                        double result = (viewModel.FirstSelectedCurrency.DollarExchangeRate / viewModel.SecondSelectedCurrency.DollarExchangeRate) * numberInput;
 
-                    textBlockCalculationResult.Text = result.ToString();
+                        textBlockCalculationResult.Text = $"{result.ToString("0.##")} {viewModel.SecondSelectedCurrency.CurrencyCode}";
+
+                        // 1 USD / 6,78 DKK = 0,147492625 USD
+                    }
+                    else if(viewModel.FirstSelectedCurrency.DollarExchangeRate > viewModel.SecondSelectedCurrency.DollarExchangeRate)
+                    {
+                        double result = (viewModel.FirstSelectedCurrency.DollarExchangeRate * viewModel.SecondSelectedCurrency.DollarExchangeRate) * numberInput;
+
+                        textBlockCalculationResult.Text = $"{result.ToString("0.##")} {viewModel.SecondSelectedCurrency.CurrencyCode}";
+
+                        // 1 USD / 6,78 DKK = 0,147492625 USD
+                    }
                 }
             }
         }

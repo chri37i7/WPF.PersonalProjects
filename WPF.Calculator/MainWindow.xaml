@@ -12,7 +12,6 @@
         MinWidth="310"
         WindowStartupLocation="CenterScreen"
         Background="#FF303030">
-
     <Grid>
         <!-- Columns -->
         <Grid.ColumnDefinitions>
